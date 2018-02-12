@@ -11,7 +11,9 @@ function handleFile(e) {
             var wb;
             var arr = fixdata(data);
             wb = X.read(btoa(arr), {
-                type: 'base64'
+                type: 'base64',
+                cellDates: true,
+                dateNF: 'yyyy/mm/dd;@'
             });
 
             var output = "";
@@ -38,7 +40,7 @@ function fixdata(data) {
 function to_json(workbook) {
     var result = {};
     workbook.SheetNames.forEach(function (sheetName) {
-        var roa = X.utils.sheet_to_json(workbook.Sheets[sheetName]);
+        var roa = X.utils.sheet_to_json(workbook.Sheets[sheetName],{raw:true, header:0});
         if (roa.length > 0) {
             result[sheetName] = roa;
         }
